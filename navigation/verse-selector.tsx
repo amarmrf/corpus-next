@@ -21,7 +21,7 @@ export const VerseSelector: React.FC<Props> = ({ chapterNumber, onClose, onNavig
     };
 
     return (
-        <div className='verse-selector'>
+        <div className="absolute h-[--popup-menu-height] text-white bg-black left-1/2 -translate-x-1/2 flex p-1">
             <SelectorList
                 header='Chapter'
                 length={chapters.length}
@@ -31,7 +31,7 @@ export const VerseSelector: React.FC<Props> = ({ chapterNumber, onClose, onNavig
                         <button
                             key={chapterNumber}
                             onClick={() => handleNavigation(`${baseUrl}/${chapterNumber}`)}
-                            className='link'
+                            className="block py-2 px-2 pr-6 whitespace-nowrap text-white hover:bg-gray-700"
                         >
                             {chapterNumber}. {phonetic}
                         </button>
@@ -47,7 +47,7 @@ export const VerseSelector: React.FC<Props> = ({ chapterNumber, onClose, onNavig
                         <button
                             key={verseNumber}
                             onClick={() => handleNavigation(`${baseUrl}/${chapterNumber}:${verseNumber}`)}
-                            className='link'
+                            className="block py-2 px-2 pr-6 whitespace-nowrap text-white hover:bg-gray-700"
                         >
                             {verseNumber}
                         </button>

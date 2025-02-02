@@ -11,7 +11,7 @@ import { MetadataService } from '@/app/metadata-service';
 import { SettingsService } from '@/settings/settings-service';
 import { applyStyles, theme } from '@/theme/theme';
 import { IndeterminateProgressBar } from '@/components/indeterminate-progress-bar';
-import "@/theme/styles.scss";
+// import "./globals.css"; // import this and infinite scroll gone but the "styling" comes
 
 const inter = Inter({ subsets: ["latin"] });
 

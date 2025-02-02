@@ -1,5 +1,4 @@
 import Link from 'next/link'
-// import './close-button.scss';
 
 type Props = {
     url: string
@@ -7,9 +6,10 @@ type Props = {
 
 export const CloseButton = ({ url }: Props) => {
     return (
-        <Link href={url} className='close-button'>
+        <Link href={url} className='rounded-[20px] transition-colors duration-300 cursor-pointer hover:bg-[#e5e5e5]'>
             <svg
-                viewBox='0 0 100 100'>
+                viewBox='0 0 100 100'
+                className='w-[40px] h-[40px] text-black'>
                 <path
                     stroke='currentColor'
                     strokeWidth={3.5}

@@ -1,3 +1,9 @@
-// import './sajdah-mark.scss';
+import React from 'react';
 
-export const SajdahMark = () => <div className='sajdah-mark brown'>۩</div>
+type Props = {
+  className?: string;
+}
+
+export const SajdahMark: React.FC<Props> = ({ className }) => (
+  <div className={`font-sans text-4xl sm:text-5xl text-brown ${className || ''}`}>۩</div>
+)

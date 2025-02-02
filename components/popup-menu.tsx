@@ -1,14 +1,17 @@
 import { ReactNode, forwardRef, Ref } from 'react';
-// import './popup-menu.scss';
 
 type Props = {
-    showPopup: boolean,
-    children: ReactNode
+    showPopup: boolean;
+    children: ReactNode;
+    className?: string;  // Add this line to accept className
 }
 
-export const PopupMenu = forwardRef<HTMLDivElement, Props>(function PopupMenu({ showPopup, children }, ref) {
+export const PopupMenu = forwardRef(function PopupMenu({ showPopup, children, className = '' }: Props, ref: Ref<HTMLDivElement>) {
     return (
-        <div ref={ref} className={`popup-menu ${showPopup ? 'visible' : ''}`}>
+        <div 
+            ref={ref} 
+            className={`${showPopup ? '' : 'hidden'} ${className}`}  // Combine classes
+        >
             {children}
         </div>
     )

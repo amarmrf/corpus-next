@@ -1,7 +1,5 @@
-// import './loading-banner.scss';
-
 export const LoadingBanner = () => {
     return (
-        <div className='loading-banner'>Loading...</div>
+        <div className="text-center p-[25px]">Loading...</div>
     )
 }

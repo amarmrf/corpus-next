@@ -1,5 +1,4 @@
 import { Token } from '../corpus/orthography/token';
-// import './token-footer.scss';
 
 type Props = {
     token: Token
@@ -8,9 +7,9 @@ type Props = {
 export const TokenFooter = ({ token }: Props) => {
     const { translation, phonetic } = token;
     return (
-        <div className='token-footer'>
-            <div className='phonetic'>{phonetic}</div>
-            <div>{translation}</div>
+        <div className="flex flex-col items-center">
+            <div className="text-[#4886d0] leading-[1.6em] ltr sm:text-base text-[90%]">{phonetic}</div>
+            <div className="leading-[1.6em] ltr sm:text-base text-[90%]">{translation}</div>
         </div>
     )
 }

@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export const CorpusHeader = () => {
     return (
-        <header className='corpus-header'>
+        <header className='m-[30px_25px] italic text-[90%]'>
             Welcome to the <Link href='/'>Quranic Arabic Corpus</Link>, an annotated linguistic
             resource which shows the Arabic grammar, syntax and morphology for each word in the
             Quran. Click on an Arabic word below to see details of the word&#39;s grammar, or to suggest

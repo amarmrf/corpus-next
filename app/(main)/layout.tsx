@@ -4,9 +4,8 @@ import "reflect-metadata";
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { NavigationBar } from '@/navigation/navigation-bar';
 import { NavigationProps } from '@/navigation/navigation';
-//import { Footer } from '@/components/footer';
 import { combineClassNames } from '@/theme/class-names';
-import '@/app/(main)/styles.scss';
+// import "@/app/globals.css"; 
 
 type LayoutProps = {
     children: ReactNode
@@ -62,20 +61,27 @@ export default function MainLayout({ children }: LayoutProps) {
             {/* <NavigationBar {...navigation} /> */}
             <div
                 ref={workspaceRef}
-                className='workspace'
-                style={{ gridTemplateColumns: info ? `1fr 10px ${infoPaneWidth}px` : `1fr` }}>
-                <main className={className}>
+                className={`flex flex-col mt-[--app-header-height] sm:grid sm:h-[calc(100vh-var(--app-header-height))] ${info ? 'sm:grid-cols-[1fr_10px_auto]' : 'sm:grid-cols-[1fr]'}`}
+                style={{ gridTemplateColumns: info ? `1fr 10px ${infoPaneWidth}px` : `1fr` }}
+            >
+                <main className={`${className} sm:overflow-y-scroll`}>
                     {children}
                     {/* <Footer type='desktop' /> */}
                 </main>
-                <div ref={splitterRef} className={combineClassNames('splitter', !info ? 'hide' : undefined)}>
-                    <div className='line' />
+                <div 
+                    ref={splitterRef} 
+                    className={`hidden sm:flex sm:items-center sm:justify-center sm:cursor-col-resize sm:select-none ${!info ? 'sm:hidden' : ''}`}
+                >
+                    <div className="w-0.5 h-full bg-gray-200"></div>
                 </div>
                 {
                     info &&
                     <>
-                        {focusMode && <div className='popup-overlay' />}
-                        <div className={combineClassNames('info-pane', focusMode ? 'popup' : undefined)}>
+                        {focusMode && <div className="fixed inset-0 bg-black bg-opacity-50 sm:hidden" />}
+                        <div className={`
+                            sm:overflow-y-scroll
+                            ${focusMode ? 'fixed bottom-0 w-[calc(100%-20px)] h-[90%] z-10 bg-white overflow-y-scroll mx-2.5 rounded-t-2xl sm:static sm:w-auto sm:h-auto sm:z-auto sm:bg-transparent sm:overflow-visible sm:m-0 sm:rounded-none' : ''}
+                        `}>
                             {info}
                         </div>
                     </>

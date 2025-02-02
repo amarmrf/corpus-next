@@ -8,7 +8,6 @@ import { ClipboardService } from '../clipboard/clipboard-service';
 import { getVerseId } from './verse-id';
 import { container } from 'tsyringe';
 import copy from '../images/icons/copy.svg';
-// import './verse-element.scss';
 
 type Props = {
     verse: Verse
@@ -23,41 +22,39 @@ export const VerseElement = ({ verse }: Props) => {
     }
 
     return (
-        <div id={getVerseId(location)} className='verse-element'>
-            <div className='verse-header'>
-                <span className='verse-number'>{location[0]}:{location[1]}</span>
-                <IconButton className='copy-button' icon={copy} onClick={handleCopy} />
+        <div id={getVerseId(location)} className="pt-4 pb-5 pl-5 pr-4">
+            <div className="flex">
+                <span className="text-gray-500">{location[0]}:{location[1]}</span>
+                <IconButton className="w-4 ml-2.5" icon={copy} onClick={handleCopy} />
             </div>
-            <div className='verse-tokens'>
-                {verseMark === 'section' && <SectionMark />}
+            <div className="rtl flex flex-wrap gap-y-5 flex-1 mt-1.5">
+                {verseMark === 'section' && <SectionMark className="py-1.5" />}
                 {
                     tokens.map((token, i) => (
                         <VerseToken key={`token-${i}`} token={token} />
                     ))
                 }
-                {verseMark === 'sajdah' && <SajdahMark />}
-                <EndOfVerse verseNumber={location[1]} />
+                {verseMark === 'sajdah' && <SajdahMark className="py-1.5" />}
+                <EndOfVerse verseNumber={location[1]} className="p-1.5" />
             </div>
             {
                 translations &&
-                <div className='verse-translation'>
+                <div className="mt-7 italic text-[90%] flex flex-col gap-4">
                     {
-                        translations.map((translation, index) => {
-                            return (
-                                <div key={`translation-${index}`}>
-                                    <div>
-                                        {
-                                            translations.length !== 1 &&
-                                            <>
-                                                <strong>{translation.name}</strong>:
-                                                {' '}
-                                            </>
-                                        }
-                                        {translation.translation}
-                                    </div>
+                        translations.map((translation, index) => (
+                            <div key={`translation-${index}`}>
+                                <div>
+                                    {
+                                        translations.length !== 1 &&
+                                        <>
+                                            <strong>{translation.name}</strong>:
+                                            {' '}
+                                        </>
+                                    }
+                                    {translation.translation}
                                 </div>
-                            )
-                        })
+                            </div>
+                        ))
                     }
                 </div>
             }

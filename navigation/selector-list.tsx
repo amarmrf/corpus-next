@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-// import './selector-list.scss';
 
 type Props = {
     header: string,
@@ -9,9 +8,9 @@ type Props = {
 
 export const SelectorList = ({ header, length, renderItem }: Props) => {
     return (
-        <div className={'selector-list'}>
-            <div className='header'>{header}</div>
-            <div className='items'>
+        <div className="flex flex-col">
+            <div className="header">{header}</div>
+            <div className="overflow-y-auto flex-grow">
                 {
                     Array.from({ length }, (_, index) => renderItem(index))
                 }

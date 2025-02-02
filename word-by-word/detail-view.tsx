@@ -1,12 +1,14 @@
+import React from 'react';
 import { Verse } from '../corpus/orthography/verse'
 import { VerseElement } from './verse-element';
 
 type Props = {
     verses: Verse[]
+    className?: string
 }
 
-export const DetailView = ({ verses }: Props) => (
-    <>
+export const DetailView: React.FC<Props> = ({ verses, className }) => (
+    <div className={className}>
         {
             verses.map((verse, i) => (
                 <VerseElement
@@ -14,5 +16,5 @@ export const DetailView = ({ verses }: Props) => (
                     verse={verse} />
             ))
         }
-    </>
+    </div>
 )

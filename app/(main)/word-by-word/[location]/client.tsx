@@ -18,7 +18,7 @@ import { LoadingBanner } from '@/components/loading-banner';
 import { getVerseId } from '@/word-by-word/verse-id';
 import { useProgress } from '@/app/progress-context';
 import { container } from 'tsyringe';
-import './styles.scss';
+import "@/app/globals.css"; 
 
 type Props = {
     location: Location;
@@ -213,8 +213,29 @@ export function WordByWordClient({ location }: Props) {
     // Navigation object
     const navigation = { chapterNumber };
 
+//     return (
+//         <div className='word-by-word'>
+//             <CorpusHeader />
+//             {loadingTop && <LoadingBanner />}
+//             <div ref={loadingRefTop} />
+//             {
+//                 verses.length > 0 && verses[0].location[1] === 1 &&
+//                 <ChapterHeader chapter={chapter} />
+//             }
+//             {
+//                 readerMode
+//                     ? <ReaderView verses={verses} />
+//                     : <DetailView verses={verses} />
+//             }
+//             {loadingBottom && <LoadingBanner />}
+//             <div ref={loadingRefBottom} />
+//             {/* {wordMorphology && <WordMorphologyView wordMorphology={wordMorphology} />} */}
+//         </div>
+//     );
+// }
+
     return (
-        <div className='word-by-word'>
+        <div className="flex flex-col">
             <CorpusHeader />
             {loadingTop && <LoadingBanner />}
             <div ref={loadingRefTop} />
@@ -227,9 +248,21 @@ export function WordByWordClient({ location }: Props) {
                     ? <ReaderView verses={verses} />
                     : <DetailView verses={verses} />
             }
+            <div className="mt-10 mx-6 sm:mx-8 lg:max-w-4xl lg:mx-auto">
+                {
+                    verses.map((verse, index) => (
+                        <div
+                            key={getVerseId(verse.location)}
+                            id={getVerseId(verse.location)}
+                            className={`mt-8 ${index % 2 === 0 ? 'bg-gray-50' : ''}`}
+                        >
+                            {/* Verse content here */}
+                        </div>
+                    ))
+                }
+            </div>
             {loadingBottom && <LoadingBanner />}
             <div ref={loadingRefBottom} />
-            {/* {wordMorphology && <WordMorphologyView wordMorphology={wordMorphology} />} */}
         </div>
     );
 }

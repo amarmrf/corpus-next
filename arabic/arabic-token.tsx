@@ -3,7 +3,6 @@ import { Token } from '../corpus/orthography/token';
 import { ArabicTextService } from '../arabic/arabic-text-service';
 import { ColorService } from '../theme/color-service';
 import { container } from 'tsyringe';
-// import './arabic-token.scss';
 
 type Props = {
     token: Token,
@@ -23,7 +22,7 @@ export const ArabicToken = ({ token, fade }: Props) => {
     }, [segments]);
 
     return (
-        <div className='arabic-token'>
+        <div className="font-arabic text-3xl sm:text-2xl">
             {
                 segments.map((segment, i) => {
                     const joinedSegment = joinedSegments[i];
@@ -31,7 +30,7 @@ export const ArabicToken = ({ token, fade }: Props) => {
                         ? (
                             <span
                                 key={`segment-${i}`}
-                                className={`segment ${fade ? 'silver' : colorService.getSegmentColor(segment)}`}
+                                className={`${fade ? 'text-silver' : colorService.getSegmentColor(segment)}`}
                                 dangerouslySetInnerHTML={{ __html: joinedSegment }} />
                         )
                         : null;

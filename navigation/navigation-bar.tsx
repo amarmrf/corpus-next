@@ -29,22 +29,22 @@ export const NavigationBar = (props: NavigationProps) => {
     const pathname = usePathname();
 
     return (
-        <nav className='navigation-bar'>
-            <header>
-                <Link href='/' passHref>
+        <nav className="fixed top-0 w-full bg-gray-800 shadow-md">
+            <header className="flex justify-center relative h-16">
+                <Link href="/" passHref className="absolute left-0 h-full">
                     <Qaf />
                 </Link>
                 <PopupLink
-                    className='chapter-name'
+                    className="inline-flex items-center justify-center text-white px-3 py-2"
                     popupRef={verseSelectorPopupRef}
                     showPopup={showVerseSelectorPopup}
                     onShowPopup={setShowVerseSelectorPopup}
                 >
                     {props.chapterNumber}. {chapter.phonetic}
-                    <ChevronDown className='down' />
+                    <ChevronDown className="text-white w-4 ml-1" />
                 </PopupLink>
                 <PopupLink
-                    className='hamburger'
+                    className="absolute right-0 flex items-center h-full px-4 cursor-pointer"
                     popupRef={hamburgerPopupRef}
                     showPopup={showHamburgerPopup}
                     onShowPopup={setShowHamburgerPopup}

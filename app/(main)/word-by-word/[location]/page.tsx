@@ -1,6 +1,10 @@
+'use client';
+
+import "reflect-metadata"
 import { WordByWordClient } from './client';
 import { parseLocation } from '@/corpus/orthography/location';
 import { CorpusError } from '@/errors/corpus-error';
+import { notFound } from 'next/navigation';
 
 type Props = {
     params: { location: string }
@@ -15,6 +19,13 @@ export const wordByWordLoader = (params: { location: string }) => {
 }
 
 export default function WordByWordPage({ params }: Props) {
-    const location = wordByWordLoader(params);
-    return <WordByWordClient location={location} />;
+    try {
+        const location = wordByWordLoader(params);
+        return <WordByWordClient location={location} />;
+    } catch (error) {
+        if (error instanceof CorpusError && error.message === '404') {
+            notFound();
+        }
+        throw error; // Re-throw other errors
+    }
 }

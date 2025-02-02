@@ -1,5 +1,4 @@
 import { combineClassNames } from '../theme/class-names';
-// import './icon-button.scss';
 
 type Props = {
     className?: string,
@@ -9,7 +8,7 @@ type Props = {
 
 export const IconButton = ({ className, icon, onClick }: Props) => (
     <img
-        className={combineClassNames('icon-button', className)}
+        className={combineClassNames('cursor-pointer transition-all duration-300 ease-in-out hover:scale-105 hover:opacity-80 active:scale-95', className)}
         src={icon}
         onClick={onClick} />
 )

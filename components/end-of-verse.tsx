@@ -1,14 +1,15 @@
+import React from 'react';
 import { arabicNumber } from '../arabic/arabic-number'
-// import './end-of-verse.scss';
 
 type Props = {
-    verseNumber: number
+  verseNumber: number;
+  className?: string;
 }
 
-export const EndOfVerse = ({ verseNumber }: Props) => {
-    return (
-        <div className='end-of-verse brown'>
-            {arabicNumber(verseNumber)}
-        </div>
-    )
+export const EndOfVerse: React.FC<Props> = ({ verseNumber, className }) => {
+  return (
+    <div className={`font-verse-end text-3xl sm:text-4xl text-brown ${className || ''}`}>
+      {arabicNumber(verseNumber)}
+    </div>
+  )
 }

@@ -4,15 +4,15 @@ import { ReaderToken } from './reader-token';
 import { SectionMark } from '../components/section-mark';
 import { SajdahMark } from '../components/sajdah-mark';
 import { EndOfVerse } from '../components/end-of-verse';
-// import './reader-view.scss';
 
 type Props = {
     verses: Verse[]
+    className?: string
 }
 
-export const ReaderView = ({ verses }: Props) => {
+export const ReaderView = ({ verses, className }: Props) => {
     return (
-        <div className='reader-view'>
+        <div className={`rtl flex flex-wrap justify-between gap-2.5 sm:gap-1.5 after:content-[''] after:flex-grow-[999999] ${className || ''}`}>
             {
                 verses.map(verse => {
                     const { location, tokens, verseMark } = verse;

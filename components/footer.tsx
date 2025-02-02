@@ -1,5 +1,3 @@
-// import './footer.scss';
-
 type FooterType = 'mobile' | 'desktop';
 
 type Props = {
@@ -8,7 +6,7 @@ type Props = {
 
 export const Footer = ({ type }: Props) => {
     return (
-        <footer className={type}>
+        <footer className={`text-[90%] text-center mt-[30px] mb-[50px] ${type === 'desktop' ? 'hidden sm:block' : 'sm:hidden'}`}>
             <div>Copyright &copy; <a href='https://www.linkedin.com/in/kaisdukes'>Dr. Kais Dukes</a>, 2009-2023.</div>
             <div>
                 <a href='https://eps.leeds.ac.uk/computing-applied-computing/staff/33/professor-eric-atwell'>Language Research Group</a>, <a href='https://eps.leeds.ac.uk/computing'>University of Leeds.</a>

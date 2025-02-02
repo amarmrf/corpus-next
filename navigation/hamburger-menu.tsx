@@ -3,9 +3,7 @@ import { useSettings } from '../settings/settings-context';
 import { TranslationService } from '../corpus/translation/translation-service';
 import { SettingsService } from '../settings/settings-service';
 import { container } from 'tsyringe';
-import read from './../images/icons/read.svg'
-import tick from './../images/icons/tick.svg'
-// import './hamburger-menu.scss';
+import { Book, Check } from 'lucide-react';
 
 type Props = {
     onClose: () => void
@@ -19,7 +17,7 @@ export const HamburgerMenu = ({ onClose }: Props) => {
     const { settings } = useSettings();
     const { readerMode } = settings;
 
-    const toggleReaderMode = (e: MouseEvent<HTMLAnchorElement>) => {
+    const toggleReaderMode = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         settingsService.saveSettings({
             ...settings,
@@ -28,7 +26,7 @@ export const HamburgerMenu = ({ onClose }: Props) => {
         onClose();
     }
 
-    const toggleTranslation = (e: MouseEvent<HTMLAnchorElement>, key: string) => {
+    const toggleTranslation = (e: MouseEvent<HTMLButtonElement>, key: string) => {
         e.preventDefault();
         settingsService.saveSettings({
             ...settings,
@@ -38,30 +36,30 @@ export const HamburgerMenu = ({ onClose }: Props) => {
     }
 
     return (
-        <div className='hamburger-menu'>
-            <a href='#' onClick={toggleReaderMode}>
-                <div className='icon-container'>
-                    <img src={read} />
-                </div>
-                {readerMode ? 'Detail mode' : 'Reader mode'}
-            </a>
-            <div className='translations'>Translations:</div>
-            {
-                translations.map((translation, i) => {
-                    const { key, name } = translation;
-                    return (
-                        <a key={`translation-${i}`} href='#' onClick={e => toggleTranslation(e, key)}>
-                            <div className='icon-container'>
-                                {
-                                    settingsService.hasTranslation(key) &&
-                                    <img src={tick} />
-                                }
-                            </div>
-                            {name}
-                        </a>
-                    )
-                })
-            }
+        <div className="bg-black text-white p-4 w-64">
+            <button 
+                onClick={toggleReaderMode} 
+                className="flex items-center space-x-3 w-full p-2 hover:bg-gray-800 rounded"
+            >
+                <Book size={20} />
+                <span>{readerMode ? 'Detail mode' : 'Reader mode'}</span>
+            </button>
+            
+            <div className="mt-4 mb-2">Translations:</div>
+            {translations.map((translation, i) => {
+                const { key, name } = translation;
+                const isSelected = settingsService.hasTranslation(key);
+                return (
+                    <button
+                        key={`translation-${i}`}
+                        onClick={(e) => toggleTranslation(e, key)}
+                        className="flex items-center justify-between w-full p-2 hover:bg-gray-800 rounded"
+                    >
+                        <span>{name}</span>
+                        {isSelected && <Check size={20} />}
+                    </button>
+                )
+            })}
         </div>
     )
 }
