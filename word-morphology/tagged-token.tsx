@@ -2,7 +2,6 @@ import { Token } from '../corpus/orthography/token';
 import { TokenHeader } from './token-header';
 import { ArabicToken } from '../arabic/arabic-token';
 import { PosTag } from './pos-tag';
-// import './tagged-token.scss';
 
 type Props = {
     token: Token
@@ -16,7 +15,7 @@ export const TaggedToken = ({ token }: Props) => {
             <div className="my-4 text-center">
                 <ArabicToken token={token} />
             </div>
-            <div className="flex flex-wrap justify-center gap-2 mt-3">
+            <div className="flex flex-wrap justify-center gap-6 mt-3">
                 {
                     (() => {
                         const posTags = [];

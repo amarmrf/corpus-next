@@ -1,10 +1,10 @@
 import { combineClassNames } from '../theme/class-names';
-// import './node-circle.scss';
+// Remove SCSS import
 
 type Props = {
     className: string
 }
 
 export const NodeCircle = ({ className }: Props) => {
-    return (<div className={`w-4 h-4 rounded-full ${className}`} />)
+    return (<div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${className}`} />)
 }

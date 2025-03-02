@@ -7,7 +7,6 @@ import { NodeCircle } from './node-circle';
 import { usePathname } from 'next/navigation';
 import { ColorService } from '../theme/color-service';
 import { container } from '@/lib/tsyringe-setup';
-// import './word-morphology-view.scss';
 
 type Props = {
     wordMorphology: WordMorphology
@@ -53,10 +52,10 @@ export const WordMorphologyView = ({ wordMorphology }: Props) => {
                             })()
                         }
                     </div>
-                    <div className="mt-4 p-3 bg-gray-50 rounded">
+                    <div className="mt-4 p-3 bg-gray-50 rounded rtl">
                         {
                             arabicGrammar.split('\n').map((line, i) => (
-                                <div key={`grammar-${i}`} className="my-1 text-right">{line}</div>
+                                <div key={`grammar-${i}`} className="my-1 text-right leading-relaxed">{line}</div>
                             ))
                         }
                     </div>
