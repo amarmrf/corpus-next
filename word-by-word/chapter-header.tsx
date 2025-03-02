@@ -32,7 +32,6 @@ export const ChapterHeader = ({ chapter }: Props) => {
                         </>
                     )}
                 </div>
-                <div className="mt-2.5 text-center">Word by Word</div>
             </div>
         </header>
     )

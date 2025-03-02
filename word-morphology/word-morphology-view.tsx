@@ -21,7 +21,7 @@ export const WordMorphologyView = ({ wordMorphology }: Props) => {
 
     return (
         <div className="fixed right-0 top-[var(--app-header-height)] bottom-0 w-[350px] bg-white shadow-lg overflow-y-auto z-10 border-l border-gray-200">
-            <header className="bg-gray-800 text-white p-4 flex justify-between items-center sticky top-0 z-20">
+            <header className="bg-white text-gray-800 p-4 flex justify-between items-center sticky top-0 z-20 border-b border-gray-200">
                 <h1 className="text-xl font-semibold">Quranic Grammar</h1>
                 <CloseButton url={pathname} />
             </header>
