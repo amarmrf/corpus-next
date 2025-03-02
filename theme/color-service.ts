@@ -8,66 +8,66 @@ import { DependencyTag } from '../corpus/syntax/dependency-tag';
 export class ColorService {
 
     private posTagColors: Map<PosTag, string> = new Map([
-        ['ADJ', 'purple'],
-        ['CIRC', 'navy'],
-        ['COM', 'navy'],
-        ['COND', 'orange'],
-        ['CONJ', 'navy'],
-        ['DEM', 'brown'],
-        ['DET', 'gray'],
-        ['INL', 'orange'],
-        ['INTG', 'rose'],
-        ['LOC', 'orange'],
-        ['N', 'sky'],
-        ['NEG', 'red'],
-        ['PN', 'blue'],
-        ['P', 'rust'],
-        ['PREV', 'orange'],
-        ['PRP', 'gold'],
-        ['PRO', 'red'],
-        ['REL', 'gold'],
-        ['REM', 'navy'],
-        ['RSLT', 'navy'],
-        ['SUB', 'gold'],
-        ['T', 'orange'],
-        ['V', 'seagreen'],
-        ['VOC', 'green']
+        ['ADJ', 'text-purple-custom'],
+        ['CIRC', 'text-navy'],
+        ['COM', 'text-navy'],
+        ['COND', 'text-orange-custom'],
+        ['CONJ', 'text-navy'],
+        ['DEM', 'text-brown'],
+        ['DET', 'text-gray-custom'],
+        ['INL', 'text-orange-custom'],
+        ['INTG', 'text-rose'],
+        ['LOC', 'text-orange-custom'],
+        ['N', 'text-sky'],
+        ['NEG', 'text-red-custom'],
+        ['PN', 'text-blue-custom'],
+        ['P', 'text-rust'],
+        ['PREV', 'text-orange-custom'],
+        ['PRP', 'text-gold'],
+        ['PRO', 'text-red-custom'],
+        ['REL', 'text-gold'],
+        ['REM', 'text-navy'],
+        ['RSLT', 'text-navy'],
+        ['SUB', 'text-gold'],
+        ['T', 'text-orange-custom'],
+        ['V', 'text-seagreen'],
+        ['VOC', 'text-green-custom']
     ]);
 
     private phraseTagColors: Map<PhraseTag, string> = new Map([
-        ['CS', 'orange'],
-        ['PP', 'rust'],
-        ['SC', 'gold'],
-        ['VS', 'seagreen']
+        ['CS', 'text-orange-custom'],
+        ['PP', 'text-rust'],
+        ['SC', 'text-gold'],
+        ['VS', 'text-seagreen']
     ]);
 
     private dependencyTagColors: Map<DependencyTag, string> = new Map([
-        ['adj', 'purple'],
-        ['app', 'sky'],
-        ['circ', 'seagreen'],
-        ['cog', 'seagreen'],
-        ['com', 'metal'],
-        ['cond', 'orange'],
-        ['cpnd', 'sky'],
-        ['gen', 'rust'],
-        ['int', 'orange'],
-        ['intg', 'rose'],
-        ['link', 'orange'],
-        ['neg', 'red'],
-        ['obj', 'metal'],
-        ['pass', 'sky'],
-        ['poss', 'sky'],
-        ['pred', 'metal'],
-        ['predx', 'metal'],
-        ['prev', 'orange'],
-        ['pro', 'red'],
-        ['prp', 'metal'],
-        ['spec', 'metal'],
-        ['spec', 'sky'],
-        ['sub', 'gold'],
-        ['subj', 'sky'],
-        ['subjx', 'sky'],
-        ['voc', 'green']
+        ['adj', 'text-purple-custom'],
+        ['app', 'text-sky'],
+        ['circ', 'text-seagreen'],
+        ['cog', 'text-seagreen'],
+        ['com', 'text-metal'],
+        ['cond', 'text-orange-custom'],
+        ['cpnd', 'text-sky'],
+        ['gen', 'text-rust'],
+        ['int', 'text-orange-custom'],
+        ['intg', 'text-rose'],
+        ['link', 'text-orange-custom'],
+        ['neg', 'text-red-custom'],
+        ['obj', 'text-metal'],
+        ['pass', 'text-sky'],
+        ['poss', 'text-sky'],
+        ['pred', 'text-metal'],
+        ['predx', 'text-metal'],
+        ['prev', 'text-orange-custom'],
+        ['pro', 'text-red-custom'],
+        ['prp', 'text-metal'],
+        ['spec', 'text-metal'],
+        ['spec', 'text-sky'],
+        ['sub', 'text-gold'],
+        ['subj', 'text-sky'],
+        ['subjx', 'text-sky'],
+        ['voc', 'text-green-custom']
     ]);
 
     getSegmentColor(segment: Segment): string {
@@ -79,21 +79,21 @@ export class ColorService {
         if (posTag === 'PRON') {
             switch (segment.pronounType) {
                 case 'subj':
-                    return 'sky';
+                    return 'text-sky';
                 case 'obj2':
-                    return 'orange';
+                    return 'text-orange-custom';
                 default:
-                    return 'metal';
+                    return 'text-metal';
             }
         }
-        return 'pink';
+        return 'text-pink-custom';
     }
 
     getPhraseColor(phraseTag: PhraseTag): string {
-        return this.phraseTagColors.get(phraseTag) || 'blue';
+        return this.phraseTagColors.get(phraseTag) || 'text-blue-custom';
     }
 
     getDependencyColor(dependencyTag: DependencyTag): string {
-        return this.dependencyTagColors.get(dependencyTag) || 'pink';
+        return this.dependencyTagColors.get(dependencyTag) || 'text-pink-custom';
     }
 }

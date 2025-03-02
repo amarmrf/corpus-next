@@ -7,8 +7,14 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    './word-by-word/**/*.{ts,tsx}',
+    './word-morphology/**/*.{ts,tsx}',
+    './navigation/**/*.{ts,tsx}',
+    './layout/**/*.{ts,tsx}',
+    './treebank/**/*.{ts,tsx}',
+    './typography/**/*.{ts,tsx}',
     './app/globals.css',
-	],
+  ],
   prefix: "",
   theme: {
     container: {

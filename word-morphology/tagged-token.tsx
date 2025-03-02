@@ -11,10 +11,12 @@ type Props = {
 export const TaggedToken = ({ token }: Props) => {
     const { segments } = token;
     return (
-        <div className='tagged-token'>
+        <div className="bg-white rounded-lg p-4 shadow-sm">
             <TokenHeader token={token} />
-            <ArabicToken token={token} />
-            <div className='pos-tags'>
+            <div className="my-4 text-center">
+                <ArabicToken token={token} />
+            </div>
+            <div className="flex flex-wrap justify-center gap-2 mt-3">
                 {
                     (() => {
                         const posTags = [];

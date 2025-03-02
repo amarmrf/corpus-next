@@ -9,10 +9,10 @@ type Props = {
 export const TokenHeader = ({ token }: Props) => {
     const { location, translation, phonetic } = token;
     return (
-        <div className='token-header'>
-            <div className='location'>{formatLocation(location)}</div>
-            <div className='phonetic'>{phonetic}</div>
-            <div>{translation}</div>
+        <div className="text-center mb-3">
+            <div className="text-gray-500 text-sm">{formatLocation(location)}</div>
+            <div className="text-lg font-medium text-blue-600 my-1">{phonetic}</div>
+            <div className="text-gray-700">{translation}</div>
         </div>
     )
 }

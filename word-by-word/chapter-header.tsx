@@ -1,6 +1,6 @@
+import "reflect-metadata";
 import { Chapter } from '../corpus/orthography/chapter';
-import makkah from '../images/makkah.svg';
-import madinah from '../images/madinah.svg';
+import Image from 'next/image';
 
 type Props = {
     chapter: Chapter
@@ -8,18 +8,22 @@ type Props = {
 
 export const ChapterHeader = ({ chapter }: Props) => {
     const { phonetic, translation } = chapter;
+    const cityImageSrc = chapter.city === 'Makkah' 
+        ? '/images/icons/makkah.svg' 
+        : '/images/icons/madinah.svg';
 
     return (
         <header className="p-6 pt-4 text-2xl">
-            <div className="grid grid-cols-[1fr_auto_auto_1fr] items-center sm:grid-cols-[1fr_auto_minmax(0,1fr)]">
-                <div className="text-right sm:col-start-1 sm:col-end-2 col-start-2 col-end-3">
-                    <img 
-                        src={chapter.city === 'Makkah' ? makkah : madinah} 
-                        className="h-9 mr-4 inline"
+            <div className="flex flex-col items-center">
+                <div className="mb-4">
+                    <Image 
+                        src={cityImageSrc}
                         alt={chapter.city}
+                        width={48}
+                        height={48}
                     />
                 </div>
-                <div className="text-center sm:col-start-2 sm:col-end-3 col-start-3 col-end-4">
+                <div className="text-center">
                     Sūrat {phonetic}
                     {translation && (
                         <>
@@ -28,8 +32,8 @@ export const ChapterHeader = ({ chapter }: Props) => {
                         </>
                     )}
                 </div>
+                <div className="mt-2.5 text-center">Word by Word</div>
             </div>
-            <div className="flex justify-center mt-2.5">Word by Word</div>
         </header>
     )
 }

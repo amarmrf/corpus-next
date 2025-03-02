@@ -1,3 +1,4 @@
+import "reflect-metadata"
 import Link from 'next/link'
 import Image from 'next/image'
 

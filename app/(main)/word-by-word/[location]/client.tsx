@@ -14,10 +14,10 @@ import { useSettings } from '@/settings/settings-context';
 import { ChapterHeader } from '@/word-by-word/chapter-header';
 import { CorpusHeader } from '@/components/corpus-header';
 import { LoadingBanner } from '@/components/loading-banner';
-// import { WordMorphologyView } from '@/word-morphology/word-morphology-view';
+import { WordMorphologyView } from '@/word-morphology/word-morphology-view';
 import { getVerseId } from '@/word-by-word/verse-id';
 import { useProgress } from '@/app/progress-context';
-import { container } from 'tsyringe';
+import { container } from '@/lib/tsyringe-setup';
 import "@/app/globals.css"; 
 
 type Props = {
@@ -71,6 +71,7 @@ export function WordByWordClient({ location }: Props) {
     const { readerMode, translations } = settings;
     const [isScrollingUp, setIsScrollingUp] = useState(false);
     const [wordMorphology, setWordMorphology] = useState<WordMorphology>();
+    const [scrollPosition, setScrollPosition] = useState<number>(0);
 
     // Refs
     const loadingRefTop = useRef<HTMLDivElement>(null);
@@ -123,6 +124,7 @@ export function WordByWordClient({ location }: Props) {
         setStartComplete(false);
         setEndComplete(false);
         loadVerses(false, []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [chapterNumber, verseNumber, translations]);
 
     useEffect(() => {
@@ -142,6 +144,7 @@ export function WordByWordClient({ location }: Props) {
                 behavior: 'smooth'
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [verses, scrollTarget]);
 
     useEffect(() => {
@@ -173,6 +176,7 @@ export function WordByWordClient({ location }: Props) {
                 observerBottom.unobserve(loadingRefBottom.current);
             }
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [verses, loadingTop, loadingBottom, startComplete, endComplete, isScrollingUp]);
 
     useEffect(() => {
@@ -196,46 +200,70 @@ export function WordByWordClient({ location }: Props) {
     useEffect(() => {
         const hash = searchParams.get('hash');
         if (!hash) {
+            // Store scroll position before removing the panel
+            if (wordMorphology) {
+                const currentPosition = window.scrollY;
+                setScrollPosition(currentPosition);
+                
+                // Set timeout to restore scroll position after panel is removed
+                setTimeout(() => {
+                    window.scrollTo(0, scrollPosition);
+                }, 0);
+            }
+            
             setWordMorphology(undefined);
             return;
         }
 
         (async () => {
+            // Store current scroll position
+            const currentPosition = window.scrollY;
+            setScrollPosition(currentPosition);
+            
             showProgress(true);
             const hashLocation = parseHashLocation(hash);
             if (hashLocation) {
                 setWordMorphology(await morphologyService.getWordMorphology(hashLocation));
             }
             showProgress(false);
+            
+            // Restore scroll position
+            setTimeout(() => {
+                window.scrollTo(0, currentPosition);
+            }, 0);
         })();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]);
+
+    // Add event listener for the custom wordClicked event
+    useEffect(() => {
+        const handleWordClicked = async (event: Event) => {
+            const customEvent = event as CustomEvent<{location: Location, scrollPosition: number}>;
+            const { location, scrollPosition } = customEvent.detail;
+            
+            showProgress(true);
+            const wordMorphology = await morphologyService.getWordMorphology(location);
+            setWordMorphology(wordMorphology);
+            showProgress(false);
+            
+            // Restore scroll position
+            setTimeout(() => {
+                window.scrollTo(0, scrollPosition);
+            }, 0);
+        };
+
+        window.addEventListener('wordClicked', handleWordClicked);
+        
+        return () => {
+            window.removeEventListener('wordClicked', handleWordClicked);
+        };
+    }, [morphologyService]);
 
     // Navigation object
     const navigation = { chapterNumber };
 
-//     return (
-//         <div className='word-by-word'>
-//             <CorpusHeader />
-//             {loadingTop && <LoadingBanner />}
-//             <div ref={loadingRefTop} />
-//             {
-//                 verses.length > 0 && verses[0].location[1] === 1 &&
-//                 <ChapterHeader chapter={chapter} />
-//             }
-//             {
-//                 readerMode
-//                     ? <ReaderView verses={verses} />
-//                     : <DetailView verses={verses} />
-//             }
-//             {loadingBottom && <LoadingBanner />}
-//             <div ref={loadingRefBottom} />
-//             {/* {wordMorphology && <WordMorphologyView wordMorphology={wordMorphology} />} */}
-//         </div>
-//     );
-// }
-
     return (
-        <div className="flex flex-col">
+        <div className={`flex flex-col ${wordMorphology ? 'pr-[350px]' : ''}`}>
             <CorpusHeader />
             {loadingTop && <LoadingBanner />}
             <div ref={loadingRefTop} />
@@ -243,26 +271,16 @@ export function WordByWordClient({ location }: Props) {
                 verses.length > 0 && verses[0].location[1] === 1 &&
                 <ChapterHeader chapter={chapter} />
             }
-            {
-                readerMode
-                    ? <ReaderView verses={verses} />
-                    : <DetailView verses={verses} />
-            }
-            <div className="mt-10 mx-6 sm:mx-8 lg:max-w-4xl lg:mx-auto">
+            <div className="mx-auto max-w-4xl w-full">
                 {
-                    verses.map((verse, index) => (
-                        <div
-                            key={getVerseId(verse.location)}
-                            id={getVerseId(verse.location)}
-                            className={`mt-8 ${index % 2 === 0 ? 'bg-gray-50' : ''}`}
-                        >
-                            {/* Verse content here */}
-                        </div>
-                    ))
+                    readerMode
+                        ? <ReaderView verses={verses} />
+                        : <DetailView verses={verses} />
                 }
             </div>
             {loadingBottom && <LoadingBanner />}
             <div ref={loadingRefBottom} />
+            {wordMorphology && <WordMorphologyView wordMorphology={wordMorphology} />}
         </div>
     );
 }

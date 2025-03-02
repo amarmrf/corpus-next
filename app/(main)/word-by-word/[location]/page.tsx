@@ -10,7 +10,8 @@ type Props = {
     params: { location: string }
 }
 
-export const wordByWordLoader = (params: { location: string }) => {
+// Make this a local function, not exported
+const wordByWordLoader = (params: { location: string }) => {
     const location = parseLocation(params.location);
     if (isNaN(location[0])) {
         throw new CorpusError('404', 'Page not found');

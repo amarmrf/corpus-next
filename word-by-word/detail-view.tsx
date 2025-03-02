@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const DetailView: React.FC<Props> = ({ verses, className }) => (
-    <div className={className}>
+    <div className={`${className} w-full`}>
         {
             verses.map((verse, i) => (
                 <VerseElement

@@ -6,5 +6,5 @@ type Props = {
 }
 
 export const NodeCircle = ({ className }: Props) => {
-    return (<div className={combineClassNames('node-circle', className)} />)
+    return (<div className={`w-4 h-4 rounded-full ${className}`} />)
 }

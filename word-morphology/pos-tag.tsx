@@ -12,9 +12,9 @@ export const PosTag = ({ segment }: Props) => {
     const colorService = container.resolve(ColorService);
     const className = colorService.getSegmentColor(segment);
     return (
-        <div className='pos-tag'>
+        <div className="flex flex-col items-center">
             <NodeCircle className={className} />
-            <div className={className}>{segment.posTag}</div>
+            <div className={`${className} text-sm font-medium mt-1`}>{segment.posTag}</div>
         </div>
     )
 }
