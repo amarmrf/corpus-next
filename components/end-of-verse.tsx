@@ -8,7 +8,7 @@ type Props = {
 
 export const EndOfVerse: React.FC<Props> = ({ verseNumber, className }) => {
   return (
-    <div className={`font-verse-end text-3xl sm:text-4xl text-brown ${className || ''}`}>
+    <div className={`font-verse-end text-4xl sm:text-5xl md:text-6xl text-brown flex items-center justify-center pb-8 ${className || ''}`}>
       {arabicNumber(verseNumber)}
     </div>
   )

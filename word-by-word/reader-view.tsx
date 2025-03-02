@@ -27,7 +27,7 @@ export const ReaderView = ({ verses, className }: Props) => {
                                 ))
                             }
                             {verseMark === 'sajdah' && <SajdahMark />}
-                            <EndOfVerse verseNumber={location[1]} />
+                            <EndOfVerse verseNumber={location[1]} className="self-center" />
                         </Fragment>
                     )
                 })

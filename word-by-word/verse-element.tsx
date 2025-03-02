@@ -54,7 +54,7 @@ export const VerseElement = ({ verse }: Props) => {
                             ))
                         }
                         {verseMark === 'sajdah' && <SajdahMark className="py-1.5" />}
-                        <EndOfVerse verseNumber={location[1]} className="p-1.5" />
+                        <EndOfVerse verseNumber={location[1]} className="flex items-center self-center" />
                     </div>
                     {
                         translations &&
