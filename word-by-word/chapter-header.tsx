@@ -13,7 +13,7 @@ export const ChapterHeader = ({ chapter }: Props) => {
         : '/images/icons/madinah.svg';
 
     return (
-        <header className="p-6 pt-4 text-2xl">
+        <header className="p-6 pt-4 text-2xl relative border-b border-gray-100">
             <div className="flex flex-col items-center">
                 <div className="mb-4">
                     <Image 

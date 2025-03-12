@@ -5,7 +5,7 @@ import "reflect-metadata";
 import { useRef, useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname, useParams } from 'next/navigation';
+import { usePathname, useParams, useRouter } from 'next/navigation';
 import { NavigationProps } from './navigation';
 import { ChapterService } from '@/corpus/orthography/chapter-service';
 import { ChevronDown } from '@/components/chevron-down';
@@ -31,6 +31,7 @@ export const NavigationBar = (props: NavigationProps) => {
     const { progress } = useProgress();
     const pathname = usePathname();
     const params = useParams();
+    const router = useRouter();
     
     // Update current chapter based on URL params
     useEffect(() => {
@@ -44,6 +45,41 @@ export const NavigationBar = (props: NavigationProps) => {
             }
         }
     }, [params]);
+
+    // Get the base path for the word-by-word view
+    const basePathForNavigation = '/word-by-word';
+    
+    // Handle navigation to a specific path
+    const navigateToPath = (path: string) => {
+        console.log('NavigationBar navigating to:', path);
+        try {
+            // Extract the location part (either chapter or chapter:verse)
+            const locationPart = path.replace(`${basePathForNavigation}/`, '');
+            console.log('Location part for navigation:', locationPart);
+            
+            // Validate that location part is not empty
+            if (!locationPart || locationPart === '') {
+                console.error('Invalid location part');
+                return;
+            }
+            
+            // For chapter:verse format, we need to encode the colon to avoid routing issues
+            // Check if locationPart contains a colon (chapter:verse format)
+            if (locationPart.includes(':')) {
+                // Replace the colon with a safer character for routing
+                const encodedLocationPart = locationPart.replace(':', '-');
+                console.log('Encoded location part:', encodedLocationPart);
+                console.log('Final navigation path:', `/word-by-word/${encodedLocationPart}`);
+                router.push(`/word-by-word/${encodedLocationPart}`);
+            } else {
+                // Direct navigation for simple chapter routes
+                console.log('Final navigation path:', `/word-by-word/${locationPart}`);
+                router.push(`/word-by-word/${locationPart}`);
+            }
+        } catch (error) {
+            console.error('Navigation error:', error);
+        }
+    };
 
     return (
         <nav className="fixed top-0 w-full bg-gray-800 shadow-md z-50">
@@ -89,9 +125,9 @@ export const NavigationBar = (props: NavigationProps) => {
                             onClose={() => setShowVerseSelectorPopup(false)}
                             onNavigate={(path) => {
                                 setShowVerseSelectorPopup(false);
-                                // Use router.push here if you need programmatic navigation
+                                navigateToPath(path);
                             }}
-                            baseUrl={pathname}
+                            baseUrl={basePathForNavigation}
                         />
                     </div>
                 </div>

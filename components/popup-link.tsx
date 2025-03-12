@@ -37,15 +37,25 @@ export const PopupLink = ({ className, children, popupRef, showPopup, onShowPopu
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+    }, [popupRef, onShowPopup]);
 
     const togglePopup = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
+        e.stopPropagation();
+        console.log('PopupLink clicked, toggling popup');
         onShowPopup(!showPopup);
     }
 
     return (
-        <a ref={linkRef} className={className} href='#' onClick={togglePopup}>
+        <a 
+            ref={linkRef} 
+            className={className} 
+            href='#' 
+            onClick={togglePopup} 
+            role="button"
+            aria-expanded={showPopup}
+            aria-haspopup="true"
+        >
             {children}
         </a>
     )

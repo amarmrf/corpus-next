@@ -53,6 +53,7 @@ const intersectionOptions = {
 export function WordByWordClient({ location }: Props) {
     const searchParams = useSearchParams();
     const [chapterNumber, verseNumber] = location;
+    console.log('Loaded with location:', chapterNumber, verseNumber); // Debug log
     const { showProgress } = useProgress();
 
     // Services
@@ -72,6 +73,11 @@ export function WordByWordClient({ location }: Props) {
     const [isScrollingUp, setIsScrollingUp] = useState(false);
     const [wordMorphology, setWordMorphology] = useState<WordMorphology>();
     const [scrollPosition, setScrollPosition] = useState<number>(0);
+    const currentScrollRef = useRef<number>(0);
+    
+    // Only show welcome text for the first verse
+    const shouldShowWelcomeText = verseNumber === 1;
+    console.log('Should show welcome text?', shouldShowWelcomeText);
 
     // Refs
     const loadingRefTop = useRef<HTMLDivElement>(null);
@@ -100,7 +106,10 @@ export function WordByWordClient({ location }: Props) {
                 : undefined
         );
 
-        if (newVerses[0].location[1] === 1) {
+        // Check if we've loaded verse 1, but don't automatically show header
+        // unless the actual URL parameter is for verse 1
+        if (newVerses.length > 0 && newVerses[0].location[1] === 1) {
+            // Don't change header visibility here - rely on the URL verse number
             if (!startComplete) console.log('    start complete');
             setStartComplete(true);
         }
@@ -199,16 +208,18 @@ export function WordByWordClient({ location }: Props) {
 
     useEffect(() => {
         const hash = searchParams.get('hash');
+        
+        // Update the current scroll position ref on every render
+        currentScrollRef.current = window.scrollY;
+        
         if (!hash) {
-            // Store scroll position before removing the panel
+            // Panel is being closed - restore the position from ref
             if (wordMorphology) {
-                const currentPosition = window.scrollY;
-                setScrollPosition(currentPosition);
-                
-                // Set timeout to restore scroll position after panel is removed
+                // Allow the component to re-render without the panel
                 setTimeout(() => {
-                    window.scrollTo(0, scrollPosition);
-                }, 0);
+                    // Use the stored position directly from the ref
+                    window.scrollTo(0, currentScrollRef.current);
+                }, 10);
             }
             
             setWordMorphology(undefined);
@@ -216,9 +227,9 @@ export function WordByWordClient({ location }: Props) {
         }
 
         (async () => {
-            // Store current scroll position
-            const currentPosition = window.scrollY;
-            setScrollPosition(currentPosition);
+            // Capture exact position when opening panel
+            const capturedPosition = window.scrollY;
+            currentScrollRef.current = capturedPosition;
             
             showProgress(true);
             const hashLocation = parseHashLocation(hash);
@@ -227,29 +238,32 @@ export function WordByWordClient({ location }: Props) {
             }
             showProgress(false);
             
-            // Restore scroll position
+            // Restore position after panel opens
             setTimeout(() => {
-                window.scrollTo(0, currentPosition);
-            }, 0);
+                window.scrollTo(0, capturedPosition);
+            }, 10);
         })();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]);
 
-    // Add event listener for the custom wordClicked event
+    // Update the custom event handler for word clicks
     useEffect(() => {
         const handleWordClicked = async (event: Event) => {
             const customEvent = event as CustomEvent<{location: Location, scrollPosition: number}>;
             const { location, scrollPosition } = customEvent.detail;
+            
+            // Save the current scroll position when clicking a word
+            currentScrollRef.current = scrollPosition;
             
             showProgress(true);
             const wordMorphology = await morphologyService.getWordMorphology(location);
             setWordMorphology(wordMorphology);
             showProgress(false);
             
-            // Restore scroll position
+            // Restore the same scroll position after panel opens
             setTimeout(() => {
                 window.scrollTo(0, scrollPosition);
-            }, 0);
+            }, 10);
         };
 
         window.addEventListener('wordClicked', handleWordClicked);
@@ -264,20 +278,23 @@ export function WordByWordClient({ location }: Props) {
 
     return (
         <div className={`flex flex-col ${wordMorphology ? 'pr-[350px]' : ''}`}>
-            <CorpusHeader />
+            <CorpusHeader shouldShow={shouldShowWelcomeText} />
             {loadingTop && <LoadingBanner />}
             <div ref={loadingRefTop} />
             {
-                verses.length > 0 && verses[0].location[1] === 1 &&
-                <ChapterHeader chapter={chapter} />
+                verses.length > 0 && (
+                    <div className="mx-auto max-w-4xl w-full">
+                        {verseNumber === 1 && (
+                            <ChapterHeader chapter={chapter} />
+                        )}
+                        {
+                            readerMode
+                                ? <ReaderView verses={verses} />
+                                : <DetailView verses={verses} />
+                        }
+                    </div>
+                )
             }
-            <div className="mx-auto max-w-4xl w-full">
-                {
-                    readerMode
-                        ? <ReaderView verses={verses} />
-                        : <DetailView verses={verses} />
-                }
-            </div>
             {loadingBottom && <LoadingBanner />}
             <div ref={loadingRefBottom} />
             {wordMorphology && <WordMorphologyView wordMorphology={wordMorphology} />}
