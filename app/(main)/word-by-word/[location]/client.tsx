@@ -53,7 +53,6 @@ const intersectionOptions = {
 export function WordByWordClient({ location }: Props) {
     const searchParams = useSearchParams();
     const [chapterNumber, verseNumber] = location;
-    console.log('Loaded with location:', chapterNumber, verseNumber); // Debug log
     const { showProgress } = useProgress();
 
     // Services
@@ -75,10 +74,9 @@ export function WordByWordClient({ location }: Props) {
     const [scrollPosition, setScrollPosition] = useState<number>(0);
     const currentScrollRef = useRef<number>(0);
     
-    // Only show welcome text for the first verse
-    const shouldShowWelcomeText = verseNumber === 1;
-    console.log('Should show welcome text?', shouldShowWelcomeText);
-
+    // Only show welcome text for the first verse - either by URL or when it's loaded by scrolling
+    const shouldShowWelcomeText = verseNumber === 1 || verses.some(verse => verse.location[1] === 1);
+    
     // Refs
     const loadingRefTop = useRef<HTMLDivElement>(null);
     const loadingRefBottom = useRef<HTMLDivElement>(null);
@@ -284,7 +282,7 @@ export function WordByWordClient({ location }: Props) {
             {
                 verses.length > 0 && (
                     <div className="mx-auto max-w-4xl w-full">
-                        {verseNumber === 1 && (
+                        {shouldShowWelcomeText && (
                             <ChapterHeader chapter={chapter} />
                         )}
                         {
