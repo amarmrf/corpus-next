@@ -12,7 +12,7 @@ type Props = {
 
 export const ReaderView = ({ verses, className }: Props) => {
     return (
-        <div className={`flex flex-wrap justify-between gap-2.5 sm:gap-1.5 w-full after:content-[''] after:basis-[45%] after:sm:basis-[30%] ${className || ''}`} dir="rtl">
+        <div className={`flex flex-wrap justify-between gap-4 sm:gap-3 w-full after:content-[''] after:basis-[45%] after:sm:basis-[30%] ${className || ''}`} dir="rtl">
             {
                 verses.map(verse => {
                     const { location, tokens, verseMark } = verse;

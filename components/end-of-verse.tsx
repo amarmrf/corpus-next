@@ -10,7 +10,7 @@ type Props = {
 export const EndOfVerse: React.FC<Props> = ({ verseNumber, className, mode = 'detail' }) => {
   // Use different size classes based on mode
   const sizeClasses = mode === 'reader' 
-    ? 'text-xl sm:text-2xl md:text-3xl' 
+    ? 'text-3xl sm:text-4xl md:text-5xl' 
     : 'text-4xl sm:text-5xl md:text-6xl';
     
   // Adjust positioning based on mode

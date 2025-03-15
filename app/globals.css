@@ -6,9 +6,9 @@
   :root {
     --app-header-height: 50px;
     --default-font-family: 'Noto Sans', sans-serif;
-    --arabic-font-size-small: 30px;
-    --arabic-font-size-medium: 40px;
-    --arabic-font-size-large: 50px;
+    --arabic-font-size-small: 36px;
+    --arabic-font-size-medium: 48px;
+    --arabic-font-size-large: 60px;
     
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;

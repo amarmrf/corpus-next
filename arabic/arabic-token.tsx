@@ -22,7 +22,7 @@ export const ArabicToken = ({ token, fade }: Props) => {
     }, [segments]);
 
     return (
-        <div className="font-arabic text-3xl sm:text-2xl leading-[1.8] whitespace-nowrap">
+        <div className="font-arabic text-4xl sm:text-3xl leading-[1.8] whitespace-nowrap">
             {
                 segments.map((segment, i) => {
                     const joinedSegment = joinedSegments[i];
