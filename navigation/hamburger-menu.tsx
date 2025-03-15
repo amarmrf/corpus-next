@@ -19,10 +19,57 @@ export const HamburgerMenu = ({ onClose }: Props) => {
 
     const toggleReaderMode = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        
+        // Save current scroll position before toggling
+        const scrollPosition = window.scrollY;
+        const documentHeight = document.documentElement.scrollHeight;
+        const viewportHeight = window.innerHeight;
+        
+        // Calculate the relative position in the document (0 to 1)
+        const scrollRatio = scrollPosition / (documentHeight - viewportHeight);
+        
+        // Find a currently visible element to use as reference point
+        let visibleElementId: string | null = null;
+        const elements = document.querySelectorAll('[id^="verse-"]');
+        
+        // Convert to array to use proper array methods and find a visible element
+        Array.from(elements).some(el => {
+            const rect = el.getBoundingClientRect();
+            // Check if element is in viewport
+            if (rect.top >= 0 && rect.top <= window.innerHeight) {
+                visibleElementId = el.id;
+                return true;
+            }
+            return false;
+        });
+        
         settingsService.saveSettings({
             ...settings,
             readerMode: !readerMode
-        })
+        });
+        
+        // After state update and re-render, restore scroll position
+        setTimeout(() => {
+            // First try to scroll to the same verse element if found
+            if (visibleElementId) {
+                const element = document.getElementById(visibleElementId);
+                if (element) {
+                    element.scrollIntoView({ block: 'center' });
+                    return;
+                }
+            }
+            
+            // If no element found or scrolling to it failed, try to maintain relative position
+            const newDocumentHeight = document.documentElement.scrollHeight;
+            const newScrollPosition = scrollRatio * (newDocumentHeight - viewportHeight);
+            
+            // Ensure we don't scroll past the document's height
+            const safeScrollPosition = Math.min(newScrollPosition, newDocumentHeight - viewportHeight);
+            
+            // Apply the new scroll position
+            window.scrollTo(0, safeScrollPosition);
+        }, 100);
+        
         onClose();
     }
 
